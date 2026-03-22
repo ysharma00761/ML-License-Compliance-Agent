@@ -6,3 +6,5 @@ system_prompt: |
 tools: # List of available tools https://gitlab.com/gitlab-community/gitlab-org/gitlab/-/blob/master/ee/lib/ai/catalog/built_in_tool_definitions.rb
   - read_file
   - read_files
+
+  # a
