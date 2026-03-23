@@ -5,23 +5,23 @@
 
 ## Task 1: GitLab Project Setup & Configuration
 
-- [ ] **1.1** Set Default GitLab Duo namespace to "GitLab AI Hackathon" in settings (required to test agent/flow)
-- [ ] **1.2** Confirm access to the GitLab AI Hackathon group project at `gitlab.com`
-- [ ] **1.3** Review the participant template (agent + flow templates) in the project
-- [ ] **1.4** Set up local development environment
-  - [ ] **1.4.1** Clone the hackathon project repo locally
-  - [ ] **1.4.2** Create a Python virtual environment (`python -m venv .venv`)
-  - [ ] **1.4.3** Install core dependencies: `huggingface_hub`, `pip-licenses`, `pipdeptree`, `cyclonedx-python`, `requests`, `PyYAML`
+- [x] **1.1** Set Default GitLab Duo namespace to "GitLab AI Hackathon" in settings (required to test agent/flow)
+- [x] **1.2** Confirm access to the GitLab AI Hackathon group project at `gitlab.com`
+- [x] **1.3** Review the participant template (agent + flow templates) in the project
+- [x] **1.4** Set up local development environment
+  - [x] **1.4.1** Clone the hackathon project repo locally
+  - [x] **1.4.2** Create a Python virtual environment (`python -m venv .venv`)
+  - [x] **1.4.3** Install core dependencies: `huggingface_hub`, `pip-licenses`, `pipdeptree`, `cyclonedx-python`, `requests`, `PyYAML`
 - [ ] **1.5** Configure GitLab CI/CD variables in the project
   - [ ] **1.5.1** Add `HF_TOKEN` (Hugging Face API token) as a masked CI/CD variable
   - [ ] **1.5.2** Add `GITLAB_TOKEN` (personal access token with `read_api` scope) as masked CI/CD variable
-- [ ] **1.6** Decide on repository structure and create folder layout:
-  - [ ] **1.6.1** `scanner/` — core scanning logic
-  - [ ] **1.6.2** `policy/` — policy engine and license maps
-  - [ ] **1.6.3** `output/` — CycloneDX BOM generation
-  - [ ] **1.6.4** `agent/` — GitLab Duo Agent YAML config
-  - [ ] **1.6.5** `demo-repo/` — planted violation examples for demo
-  - [ ] **1.6.6** `tests/` — unit tests for each scanner module
+- [x] **1.6** Decide on repository structure and create folder layout:
+  - [x] **1.6.1** `scanner/` — core scanning logic
+  - [x] **1.6.2** `policy/` — policy engine and license maps
+  - [x] **1.6.3** `output/` — CycloneDX BOM generation
+  - [x] **1.6.4** `agents/` — GitLab Duo Agent YAML config (pre-existing)
+  - [x] **1.6.5** `demo-repo/` — planted violation examples for demo
+  - [x] **1.6.6** `tests/` — unit tests for each scanner module
 
 ---
 
