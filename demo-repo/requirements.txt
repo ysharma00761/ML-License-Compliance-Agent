@@ -1,0 +1,28 @@
+# ML Inference Service — Dependencies
+# WARNING: Do NOT add text-unidecode here. python-slugify pulls in Unidecode (GPLv2+)
+# transitively — the scanner must catch and recommend text-unidecode as the fix.
+
+# Web framework (SaaS deployment context — triggers AGPL escalation)
+fastapi==0.111.0
+uvicorn==0.29.0
+
+# Core ML
+torch
+transformers==4.40.0
+accelerate==0.30.0
+sentencepiece==0.2.0
+
+# Computer vision — AGPL-3.0 trap
+ultralytics==8.0.200
+
+# Utility — MIT on surface, GPLv2+ transitive dep (Unidecode)
+python-slugify==8.0.1
+
+# Data handling
+datasets==2.19.0
+huggingface_hub==0.22.2
+numpy==1.26.4
+pillow==10.3.0
+requests==2.31.0
+pydantic==2.7.1
+python-multipart==0.0.9
