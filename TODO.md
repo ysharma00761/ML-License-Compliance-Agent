@@ -67,46 +67,46 @@
 
 > Covers: Llama license obligations, OpenRAIL use restrictions, missing license detection
 
-- [ ] **3.1** Build Python code scanner to extract model references
-  - [ ] **3.1.1** Implement regex patterns for all major HF loading patterns:
+- [x] **3.1** Build Python code scanner to extract model references
+  - [x] **3.1.1** Implement regex patterns for all major HF loading patterns:
     - `\.from_pretrained\(\s*["']([a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+)["']`
     - `pipeline\([^)]*model\s*=\s*["']([a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+)["']`
     - `SentenceTransformer\(\s*["']([a-zA-Z0-9_-]+/[a-zA-Z0-9._-]+)["']`
-  - [ ] **3.1.2** Scan all `*.py` files recursively in the repo
-  - [ ] **3.1.3** Deduplicate model IDs (same model referenced in multiple files → one entry)
-  - [ ] **3.1.4** Flag dynamic/variable model references (e.g., `from_pretrained(model_name)`) as "UNRESOLVED — manual review needed"
-  - [ ] **3.1.5** Detect f-string model references (e.g., `from_pretrained(f"{org}/{model}")`) and flag as UNRESOLVED
-- [ ] **3.2** Build config file scanner for model references
-  - [ ] **3.2.1** Scan YAML files for keys: `model_name_or_path`, `pretrained_model_name_or_path`, `base_model`
-  - [ ] **3.2.2** Scan JSON files for same keys
-  - [ ] **3.2.3** Scan `.env` files for `MODEL_NAME`, `HF_MODEL_ID`, `BASE_MODEL` keys
+  - [x] **3.1.2** Scan all `*.py` files recursively in the repo
+  - [x] **3.1.3** Deduplicate model IDs (same model referenced in multiple files → one entry)
+  - [x] **3.1.4** Flag dynamic/variable model references (e.g., `from_pretrained(model_name)`) as "UNRESOLVED — manual review needed"
+  - [x] **3.1.5** Detect f-string model references (e.g., `from_pretrained(f"{org}/{model}")`) and flag as UNRESOLVED
+- [x] **3.2** Build config file scanner for model references
+  - [x] **3.2.1** Scan YAML files for keys: `model_name_or_path`, `pretrained_model_name_or_path`, `base_model`
+  - [x] **3.2.2** Scan JSON files for same keys
+  - [x] **3.2.3** Scan `.env` files for `MODEL_NAME`, `HF_MODEL_ID`, `BASE_MODEL` keys
   - [ ] **3.2.4** Scan shell scripts and Dockerfiles for `HF_MODEL` env vars or `huggingface-cli download` calls
-- [ ] **3.3** Resolve model licenses via Hugging Face Hub API
-  - [ ] **3.3.1** Use `huggingface_hub` library: `api.model_info(model_id, cardData=True)`
-  - [ ] **3.3.2** Extract license from `info.cardData["license"]` (primary) and `info.tags` (fallback)
-  - [ ] **3.3.3** Handle `license: other` → extract `license_name` and `license_link` from card YAML
-  - [ ] **3.3.4** Handle 404 (model not found / private) → flag as WARNING with note about private model
-  - [ ] **3.3.5** Handle rate limits → implement exponential backoff with `HF_TOKEN` authentication
-  - [ ] **3.3.6** Cache API responses to a local JSON file (model licenses rarely change)
-- [ ] **3.4** Build custom AI license taxonomy (non-SPDX → compliance category mapping)
-  - [ ] **3.4.1** `llama2` → `CUSTOM_RESTRICTED` (700M MAU threshold, attribution required)
-  - [ ] **3.4.2** `llama3` → `CUSTOM_RESTRICTED` (700M MAU threshold, attribution required, anti-competition clause for distillation)
-  - [ ] **3.4.3** `llama3.1`, `llama3.2`, `llama3.3` → `CUSTOM_RESTRICTED` (anti-competition clause relaxed for 3.1+, verify)
-  - [ ] **3.4.4** `gemma` → `CUSTOM_RESTRICTED` (use restrictions + redistribution requirements)
-  - [ ] **3.4.5** `openrail` / `openrail++` / `creativeml-openrail-m` → `RESTRICTED_USE` (behavioral restrictions, propagate to derivatives)
-  - [ ] **3.4.6** `bigscience-bloom-rail-1.0` → `RESTRICTED_USE` (prohibits surveillance, disinformation, discriminatory profiling)
-  - [ ] **3.4.7** `agpl-3.0` → `COPYLEFT_STRONG` (SaaS network clause triggers source disclosure)
-  - [ ] **3.4.8** `gpl-2.0`, `gpl-3.0` → `COPYLEFT_STRONG` (distribution triggers copyleft)
-  - [ ] **3.4.9** `lgpl-2.1`, `lgpl-3.0` → `COPYLEFT_WEAK` (dynamic linking OK, static linking triggers)
-  - [ ] **3.4.10** `apache-2.0`, `mit`, `bsd-3-clause`, `bsd-2-clause` → `PERMISSIVE`
-  - [ ] **3.4.11** No license / missing → `UNKNOWN_RISK` (flag as WARNING, requires manual review)
-- [ ] **3.5** Implement Llama-specific violation checks
-  - [ ] **3.5.1** If `meta-llama/` model detected → check repo for "Built with Meta Llama" attribution string in README or LICENSE
-  - [ ] **3.5.2** If `meta-llama/Meta-Llama-3*` detected + `distill.py` or training script found → flag potential anti-distillation violation (Section 1.b.v)
-  - [ ] **3.5.3** Flag the 700M MAU threshold clause as informational (cannot auto-detect user count)
-- [ ] **3.6** Implement OpenRAIL flagging
-  - [ ] **3.6.1** If OpenRAIL model detected → enumerate specific prohibited use cases (surveillance, military, disinformation, discriminatory profiling) as WARNING items requiring human review
-  - [ ] **3.6.2** Flag that behavioral restrictions propagate to all fine-tuned derivatives and downstream deployments
+- [x] **3.3** Resolve model licenses via Hugging Face Hub API
+  - [x] **3.3.1** Use `huggingface_hub` library: `api.model_info(model_id, cardData=True)`
+  - [x] **3.3.2** Extract license from `info.tags` (primary) and `info.cardData["license"]` (fallback)
+  - [x] **3.3.3** Handle `license: other` → extract `license_name` and `license_link` from card YAML
+  - [x] **3.3.4** Handle 404 (model not found / private) → flag as WARNING with note about private model
+  - [x] **3.3.5** Handle rate limits → implement exponential backoff with `HF_TOKEN` authentication
+  - [x] **3.3.6** Cache API responses to a local JSON file (model licenses rarely change)
+- [x] **3.4** Build custom AI license taxonomy (non-SPDX → compliance category mapping)
+  - [x] **3.4.1** `llama2` → `CUSTOM_RESTRICTED`
+  - [x] **3.4.2** `llama3` → `CUSTOM_RESTRICTED` (anti-competition clause for distillation)
+  - [x] **3.4.3** `llama3.1`, `llama3.2`, `llama3.3` → `CUSTOM_RESTRICTED` (anti-competition clause relaxed)
+  - [x] **3.4.4** `gemma` → `CUSTOM_RESTRICTED`
+  - [x] **3.4.5** `openrail` / `openrail++` / `creativeml-openrail-m` → `RESTRICTED_USE`
+  - [x] **3.4.6** `bigscience-bloom-rail-1.0` → `RESTRICTED_USE`
+  - [x] **3.4.7** `agpl-3.0` → `COPYLEFT_STRONG`
+  - [x] **3.4.8** `gpl-2.0`, `gpl-3.0` → `COPYLEFT_STRONG`
+  - [x] **3.4.9** `lgpl-2.1`, `lgpl-3.0` → `COPYLEFT_WEAK`
+  - [x] **3.4.10** `apache-2.0`, `mit`, `bsd-3-clause`, `bsd-2-clause` → `PERMISSIVE`
+  - [x] **3.4.11** No license / missing → `UNKNOWN_RISK` (flag as WARNING)
+- [x] **3.5** Implement Llama-specific violation checks
+  - [x] **3.5.1** Check repo for "Built with Meta Llama" attribution string in README
+  - [x] **3.5.2** Detect distill.py / training scripts alongside Llama 3 → flag anti-distillation violation
+  - [x] **3.5.3** Flag 700M MAU threshold as INFO
+- [x] **3.6** Implement OpenRAIL flagging
+  - [x] **3.6.1** Enumerate specific prohibited use cases as MEDIUM warnings requiring human review
+  - [x] **3.6.2** Flag behavioral restriction propagation to derivatives
 
 ---
 
