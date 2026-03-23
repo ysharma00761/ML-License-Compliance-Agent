@@ -56,4 +56,6 @@ tools:
   - read_files
   - get_issue
   - create_issue_note
-  - ci_editor_content
+  - get_repository_file
+  - find_files
+  - grep
