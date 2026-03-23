@@ -225,6 +225,7 @@ def write_compliance_report(
     summary: dict,
     output_path: Path,
     project_name: str = "ml-project",
+    claude_analysis: Optional[dict] = None,
 ) -> None:
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     lines = []
@@ -235,7 +236,25 @@ def write_compliance_report(
     lines.append(f"**Agent:** ML License Compliance Agent (GitLab AI Hackathon)")
     lines.append("")
 
-    # Executive summary
+    # Claude-powered executive summary (if available)
+    if claude_analysis and claude_analysis.get("executive_summary"):
+        lines.append("## 🤖 AI-Powered Executive Summary")
+        lines.append(f"*Powered by Anthropic {claude_analysis.get('model_used', 'Claude')} via GitLab Duo Agent Platform*")
+        lines.append("")
+        lines.append(claude_analysis["executive_summary"])
+        lines.append("")
+        if claude_analysis.get("openrail_assessment"):
+            lines.append("### OpenRAIL Risk Assessment")
+            lines.append(claude_analysis["openrail_assessment"])
+            lines.append("")
+        if claude_analysis.get("top_priorities"):
+            lines.append("### Remediation Priorities")
+            lines.append(claude_analysis["top_priorities"])
+            lines.append("")
+        lines.append("---")
+        lines.append("")
+
+    # Severity table
     exit_icon = "❌ FAILED" if (summary.get("critical", 0) + summary.get("high", 0)) > 0 else "✅ PASSED"
     lines.append(f"## Executive Summary")
     lines.append(f"**Status: {exit_icon}**")
@@ -306,6 +325,7 @@ def generate(
     project_name: str = "ml-project",
     project_version: str = "unknown",
     output_dir: Path = Path("."),
+    claude_analysis: Optional[dict] = None,
 ) -> dict:
     """
     Generate both output artifacts.
@@ -327,6 +347,6 @@ def generate(
     )
 
     write_bom_json(bom, bom_path)
-    write_compliance_report(findings, summary, report_path, project_name)
+    write_compliance_report(findings, summary, report_path, project_name, claude_analysis)
 
     return {"bom_path": bom_path, "report_path": report_path}

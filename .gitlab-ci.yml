@@ -32,6 +32,7 @@ ml-license-compliance:
         cyclonedx-python-lib
         packageurl-python
         pipdeptree
+        anthropic
   script:
     - python main.py
         --path "$CI_PROJECT_DIR"
@@ -39,9 +40,11 @@ ml-license-compliance:
         --project-name "$CI_PROJECT_NAME"
         --project-version "$CI_COMMIT_SHA"
         --post-mr-comment
+        --claude-enhance
   variables:
     HF_TOKEN: $HF_TOKEN
     GITLAB_TOKEN: $GITLAB_TOKEN
+    ANTHROPIC_API_KEY: $ANTHROPIC_API_KEY
   artifacts:
     paths:
       - ml-sbom.json
