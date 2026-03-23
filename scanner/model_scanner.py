@@ -177,10 +177,11 @@ def resolve_model_license(model_id: str, cache: dict, token: Optional[str] = Non
                     result["license"] = tag[len("license:"):]
                     break
 
-            # Fallback to cardData
-            if not result["license"] and info.cardData:
+            # Enrich with cardData (always, for license_name/link on "other")
+            if info.cardData:
                 card = info.cardData
-                result["license"] = card.get("license")
+                if not result["license"]:
+                    result["license"] = card.get("license")
                 if result["license"] == "other":
                     result["license_name"] = card.get("license_name")
                     result["license_link"] = card.get("license_link")
