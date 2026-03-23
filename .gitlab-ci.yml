@@ -1,5 +1,25 @@
 stages:
+  - test
   - compliance
+
+unit-tests:
+  stage: test
+  image: python:3.11-slim
+  before_script:
+    - pip install --no-cache-dir
+        huggingface_hub
+        requests
+        PyYAML
+        cyclonedx-python-lib
+        packageurl-python
+        pipdeptree
+        pytest
+  script:
+    - python -m pytest tests/ -v --tb=short
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH
 
 ml-license-compliance:
   stage: compliance
