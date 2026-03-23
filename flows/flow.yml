@@ -1,61 +1,57 @@
-name: "AI Hackathon Flow"
-description: "A flow to..."
+name: "ML License Compliance Flow"
+description: |
+  Scans the current project for ML license compliance violations across
+  Python packages, Hugging Face models, and training datasets. Returns
+  a severity-ranked findings report with remediation guidance.
 public: true
 definition:
   version: v1
   environment: ambient
-  
-  # Components define the steps in your flow
-  # Each component can be an Agent, DeterministicStep, or other component types
-  components:
-    - name: "my_agent"
-      type: AgentComponent  # Options: AgentComponent, DeterministicStepComponent
-      prompt_id: "my_prompt"  # References a prompt defined below
-      inputs:
-        - "context:goal"  # Input from user or previous component
-      toolset: []  # Add tool names here: ["get_issue", "create_issue_note"], see https://gitlab.com/components/ai-catalog/-/blob/main/tool_mapping.json?ref_type=heads
 
-      # Optional: UI logging
+  components:
+    - name: "compliance_scanner"
+      type: AgentComponent
+      prompt_id: "compliance_prompt"
+      inputs:
+        - "context:goal"
+      toolset:
+        - read_file
+        - read_files
+        - get_issue
+        - create_issue_note
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
-  
-  # Define your prompts here
-  # Each prompt configures an AI agent's behavior
-  prompts:
-    - prompt_id: "my_prompt"  # Must match the prompt_id referenced above
-      name: "My Agent Prompt"
 
-      # System and user prompts define the agent's behavior
+  prompts:
+    - prompt_id: "compliance_prompt"
+      name: "ML Compliance Scanner Prompt"
       prompt_template:
         system: |
-          Only reply with "I'm a placeholder agent, please change my prompt"
+          You are the ML License Compliance Agent. Scan the project for license
+          compliance risks across three dimensions:
 
-        # Available variables depend on your inputs:
-        # {{goal}} - The user's request
-        # {{context}} - Additional context from previous steps
+          1. Python packages — check requirements.txt, pyproject.toml, Pipfile for
+             GPL contamination, AGPL SaaS risks, and bundled proprietary binaries.
+          2. Hugging Face models — find .from_pretrained() calls, resolve licenses,
+             check Llama attribution/distillation obligations and OpenRAIL restrictions.
+          3. Training datasets — find load_dataset() calls, resolve licenses, flag
+             CC-BY-NC commercial traps and CC-BY-SA ShareAlike propagation.
+
+          Classify findings as CRITICAL, HIGH, MEDIUM, WARNING, or INFO.
+          Provide specific remediation for each finding.
+          Reference exact license clauses when possible.
+
         user: |
           {{goal}}
-        placeholder: history  # Maintains conversation context
+        placeholder: history
       unit_primitives: []
       params:
-        timeout: 180  # Seconds before timeout
+        timeout: 180
 
-  # Routers define the flow between components
-  # Use "end" as the final destination
   routers:
-    - from: "my_agent"
+    - from: "compliance_scanner"
       to: "end"
 
-    # Example: Multi-step flow
-    # - from: "fetch_data"
-    #   to: "process_data"
-    # - from: "process_data"
-    #   to: "my_agent"
-    # - from: "my_agent"
-    #   to: "end"
-
-  # Define the entry point for your flow
   flow:
-    entry_point: "my_agent"
-#gay
+    entry_point: "compliance_scanner"

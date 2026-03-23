@@ -1,0 +1,35 @@
+stages:
+  - compliance
+
+ml-license-compliance:
+  stage: compliance
+  image: python:3.11-slim
+  before_script:
+    - pip install --no-cache-dir
+        huggingface_hub
+        requests
+        PyYAML
+        cyclonedx-python-lib
+        packageurl-python
+        pipdeptree
+  script:
+    - python main.py
+        --path "$CI_PROJECT_DIR"
+        --output-dir .
+        --project-name "$CI_PROJECT_NAME"
+        --project-version "$CI_COMMIT_SHA"
+        --post-mr-comment
+  variables:
+    HF_TOKEN: $HF_TOKEN
+    GITLAB_TOKEN: $GITLAB_TOKEN
+  artifacts:
+    paths:
+      - ml-sbom.json
+      - compliance-report.md
+    reports:
+      cyclonedx: ml-sbom.json
+    expire_in: 30 days
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
