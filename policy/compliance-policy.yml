@@ -1,0 +1,55 @@
+# ML License Compliance Policy
+# Edit this file to configure your organization's license rules.
+
+# Project context — affects which violations are active
+commercial_use: true          # Set false for pure research/academic projects
+saas_deployment: true         # Set false if you only distribute binaries (not SaaS)
+require_attribution_check: true  # Check for required attribution strings (e.g. Llama)
+
+# Licenses that are always allowed — no findings generated
+allowed_licenses:
+  - apache-2.0
+  - mit
+  - bsd-2-clause
+  - bsd-3-clause
+  - isc
+  - artistic-2.0
+  - cc-by-4.0
+  - cc0-1.0
+  - unlicense
+  - lgpl-2.1    # Allowed for dynamic linking only
+  - lgpl-3.0    # Allowed for dynamic linking only
+
+# Licenses that are denied — findings generated at specified severity
+denied_licenses:
+  agpl-3.0:    CRITICAL   # SaaS network clause requires full source disclosure
+  gpl-3.0:     CRITICAL   # Distribution triggers full GPL copyleft
+  gpl-2.0:     CRITICAL   # Distribution triggers full GPL copyleft
+  cc-by-nc-4.0:   HIGH    # Non-commercial only — blocked for commercial use
+  cc-by-nc-sa-4.0: HIGH   # Non-commercial + ShareAlike
+  cc-by-nc-nd-4.0: HIGH   # Non-commercial + No Derivatives
+
+# Licenses that require human review — findings generated at specified severity
+review_required_licenses:
+  llama2:                      HIGH
+  llama3:                      HIGH
+  llama3.1:                    MEDIUM
+  llama3.2:                    MEDIUM
+  llama3.3:                    MEDIUM
+  gemma:                       MEDIUM
+  openrail:                    MEDIUM
+  openrail++:                  MEDIUM
+  creativeml-openrail-m:       MEDIUM
+  bigscience-openrail-m:       MEDIUM
+  bigscience-bloom-rail-1.0:   MEDIUM
+  bigcode-openrail-m:          MEDIUM
+  cc-by-sa-4.0:                MEDIUM
+  cc-by-sa-3.0:                MEDIUM
+  other:                       MEDIUM
+
+# Exit code behaviour for CI/CD pipelines
+fail_on:
+  critical: true    # Always fail pipeline on CRITICAL
+  high: true        # Fail pipeline on HIGH (set false to warn-only)
+  medium: false     # Do not fail on MEDIUM
+  warning: false    # Do not fail on WARNING

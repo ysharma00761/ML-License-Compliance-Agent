@@ -148,30 +148,30 @@
 
 > Allows configurable org-level allow/deny lists; produces severity-ranked findings
 
-- [ ] **5.1** Design policy configuration schema (YAML file: `policy/compliance-policy.yml`)
-  - [ ] **5.1.1** Define `allowed_licenses` list (e.g., `[apache-2.0, mit, bsd-3-clause, bsd-2-clause]`)
-  - [ ] **5.1.2** Define `denied_licenses` list with severity (e.g., `agpl-3.0: CRITICAL`, `gpl-3.0: CRITICAL`)
-  - [ ] **5.1.3** Define `review_required_licenses` list (e.g., `llama3: HIGH`, `openrail: MEDIUM`)
-  - [ ] **5.1.4** Define `commercial_use: true/false` flag to toggle NC license violation detection
-  - [ ] **5.1.5** Define `saas_deployment: true/false` flag to enable AGPL SaaS network clause enforcement
-  - [ ] **5.1.6** Define `require_attribution_check: true/false` for Llama attribution scanning
-- [ ] **5.2** Implement severity classification engine
-  - [ ] **5.2.1** `CRITICAL` — GPL/AGPL in commercial distributed app, or AGPL in SaaS without source disclosure
-  - [ ] **5.2.2** `HIGH` — Non-commercial dataset/model used commercially, Llama attribution missing, CC-BY-NC in commercial training
-  - [ ] **5.2.3** `MEDIUM` — CC-BY-SA ShareAlike propagation risk, OpenRAIL behavioral restriction flagged, Llama distillation clause
-  - [ ] **5.2.4** `WARNING` — Missing license metadata on package/model/dataset, ambiguous PyPI license string, unresolved dynamic reference
-  - [ ] **5.2.5** `INFO` — Permissive license with attribution requirement, 700M MAU threshold informational
-- [ ] **5.3** Build remediation recommendation engine
-  - [ ] **5.3.1** `Unidecode (GPLv2+)` → "Replace `python-slugify` with `python-slugify[unidecode]` pinned to `text-unidecode`, or install `text-unidecode` directly (Artistic License)"
-  - [ ] **5.3.2** `ultralytics AGPL-3.0` → "Purchase Ultralytics Enterprise License OR replace with RT-DETR (Apache-2.0)"
-  - [ ] **5.3.3** `PyQt5/6 GPL-3.0` → "Replace with `PySide2`/`PySide6` (LGPL-2.1)"
-  - [ ] **5.3.4** Missing Llama attribution → "Add 'Built with Meta Llama 3' to README and all user-facing documentation"
-  - [ ] **5.3.5** CC-BY-NC dataset in commercial use → "Replace with permissively licensed alternative dataset"
-  - [ ] **5.3.6** Generic AGPL → "Consult legal counsel; obtain commercial license or switch to Apache-2.0 alternative"
-- [ ] **5.4** Implement CI/CD exit code logic
-  - [ ] **5.4.1** Exit with code `1` (fail pipeline) if any CRITICAL findings exist
-  - [ ] **5.4.2** Optionally exit `1` on HIGH findings (configurable via policy YAML)
-  - [ ] **5.4.3** Always exit `0` (pass) for WARNING/INFO-only runs
+- [x] **5.1** Design policy configuration schema (YAML file: `policy/compliance-policy.yml`)
+  - [x] **5.1.1** Define `allowed_licenses` list
+  - [x] **5.1.2** Define `denied_licenses` list with severity
+  - [x] **5.1.3** Define `review_required_licenses` list
+  - [x] **5.1.4** Define `commercial_use: true/false` flag
+  - [x] **5.1.5** Define `saas_deployment: true/false` flag
+  - [x] **5.1.6** Define `require_attribution_check: true/false`
+- [x] **5.2** Implement severity classification engine
+  - [x] **5.2.1** `CRITICAL` — GPL/AGPL in commercial/SaaS app
+  - [x] **5.2.2** `HIGH` — NC dataset/model used commercially, missing Llama attribution
+  - [x] **5.2.3** `MEDIUM` — CC-BY-SA ShareAlike risk, OpenRAIL restrictions, Llama distillation
+  - [x] **5.2.4** `WARNING` — Missing license metadata, unresolved dynamic reference
+  - [x] **5.2.5** `INFO` — Permissive license with attribution, 700M MAU threshold
+- [x] **5.3** Build remediation recommendation engine
+  - [x] **5.3.1** `Unidecode (GPLv2+)` → replace with `text-unidecode`
+  - [x] **5.3.2** `ultralytics AGPL-3.0` → Ultralytics Enterprise or RT-DETR
+  - [x] **5.3.3** `PyQt5/6 GPL-3.0` → replace with `PySide2`/`PySide6`
+  - [x] **5.3.4** Missing Llama attribution → add "Built with Meta Llama 3" to README
+  - [x] **5.3.5** CC-BY-NC dataset commercially → replace with permissive alternative
+  - [x] **5.3.6** Generic AGPL → commercial license or Apache-2.0 alternative
+- [x] **5.4** Implement CI/CD exit code logic
+  - [x] **5.4.1** Exit `1` on any CRITICAL finding
+  - [x] **5.4.2** Exit `1` on HIGH (configurable via `fail_on.high` in policy YAML)
+  - [x] **5.4.3** Exit `0` for WARNING/INFO-only runs
 
 ---
 
