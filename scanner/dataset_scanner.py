@@ -28,6 +28,11 @@ PY_DATASET_PATTERNS = [
     re.compile(r'''load_dataset\(\s*["']([a-zA-Z0-9_.-]+(?:/[a-zA-Z0-9._-]+)?)["']'''),
 ]
 
+# Module-level constant assignments: DATASET_ID = "org/name"
+PY_CONSTANT_PATTERN = re.compile(
+    r'''^[A-Z_][A-Z0-9_]*\s*=\s*["']([a-zA-Z0-9_.-]+/[a-zA-Z0-9._-]+)["']'''
+)
+
 # Dynamic patterns — flag unresolvable references
 PY_DYNAMIC_PATTERNS = [
     re.compile(r'''load_dataset\(\s*([a-zA-Z_][a-zA-Z0-9_]*)[\s,)]'''),
@@ -152,6 +157,13 @@ def scan_python_files(repo_root: Path) -> tuple[dict, list]:
         rel_path = str(py_file.relative_to(repo_root))
 
         for line_no, line in enumerate(lines, 1):
+            # Resolve module-level constant assignments: DATASET_ID = "org/name"
+            m = PY_CONSTANT_PATTERN.match(line.strip())
+            if m:
+                dataset_id = m.group(1)
+                if rel_path not in resolved.get(dataset_id, []):
+                    resolved.setdefault(dataset_id, []).append(rel_path)
+
             if "load_dataset" not in line:
                 continue
 

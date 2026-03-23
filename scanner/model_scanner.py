@@ -95,6 +95,8 @@ PY_MODEL_PATTERNS = [
     re.compile(r'pipeline\([^)]*model\s*=\s*["\']([a-zA-Z0-9_.-]+/[a-zA-Z0-9._-]+)["\']'),
     # SentenceTransformer("org/model")
     re.compile(r'SentenceTransformer\(\s*["\']([a-zA-Z0-9_.-]+/[a-zA-Z0-9._-]+)["\']'),
+    # Module-level constant assignment: MODEL_ID = "org/model"
+    re.compile(r'[A-Z_][A-Z0-9_]*\s*=\s*["\']([a-zA-Z0-9_.-]+/[a-zA-Z0-9._-]+)["\']'),
     # DiffusionPipeline / StableDiffusionPipeline already caught by from_pretrained
 ]
 
