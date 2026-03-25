@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML License Compliance Agent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f9f9f8;
+      color: #1a1a18;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(249,249,248,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e5e4e0;
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+    .logo span { color: #6b6b66; font-weight: 500; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { font-size: 13px; color: #6b6b66; text-decoration: none; transition: color 0.15s; }
+    .nav-links a:hover { color: #1a1a18; }
+    .nav-badge {
+      font-size: 11px; font-family: 'IBM Plex Mono', monospace;
+      background: #1a1a18; color: white; padding: 3px 8px; border-radius: 3px;
+    }
+
+    /* HERO */
+    .hero { max-width: 860px; margin: 0 auto; padding: 7rem 2rem 5rem; }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6b6b66;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .eyebrow::before { content: ''; display: block; width: 20px; height: 1px; background: #6b6b66; }
+    h1 {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    h1 em { font-style: normal; color: #6b6b66; }
+    .subtitle { font-size: 17px; color: #6b6b66; max-width: 540px; margin-bottom: 2.5rem; line-height: 1.7; }
+    .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      background: #1a1a18; color: white; padding: 10px 20px; border-radius: 6px;
+      font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #333; }
+    .btn-secondary {
+      background: white; color: #1a1a18; padding: 10px 20px; border-radius: 6px;
+      font-size: 13px; font-weight: 500; text-decoration: none;
+      border: 1px solid #c8c7c2; transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: #f9f9f8; }
+
+    /* STATS */
+    .stats {
+      border-top: 1px solid #e5e4e0; border-bottom: 1px solid #e5e4e0;
+      background: white; display: grid; grid-template-columns: repeat(3, 1fr);
+    }
+    .stat { padding: 2rem; border-right: 1px solid #e5e4e0; }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 2.4rem; letter-spacing: -0.04em; line-height: 1; margin-bottom: 6px;
+    }
+    .stat-label { font-size: 13px; color: #6b6b66; }
+
+    /* SECTIONS */
+    .section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9e9e99;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 1rem;
+    }
+    .section-intro { font-size: 15px; color: #6b6b66; max-width: 520px; margin-bottom: 3rem; line-height: 1.7; }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: #e5e4e0;
+      border: 1px solid #e5e4e0; border-radius: 10px; overflow: hidden;
+    }
+    .step { background: white; padding: 1.5rem; }
+    .step-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9e9e99; margin-bottom: 0.75rem; }
+    .step-title { font-weight: 500; font-size: 14px; margin-bottom: 6px; }
+    .step-desc { font-size: 13px; color: #6b6b66; line-height: 1.6; }
+
+    /* COMPARE TABLE */
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .compare-table th {
+      text-align: left; padding: 10px 14px; background: #f9f9f8;
+      border: 1px solid #e5e4e0; font-weight: 500;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      letter-spacing: 0.04em; color: #6b6b66;
+    }
+    .compare-table td { padding: 10px 14px; border: 1px solid #e5e4e0; }
+    .compare-table tr:hover td { background: #f9f9f8; }
+    .compare-table tr.ours td { background: #f0f4fd; }
+    .tick { color: #1a6b3a; }
+    .cross { color: #9e9e99; }
+    .partial { color: #c05c00; font-size: 12px; }
+
+    /* DEMO */
+    .demo-shell { border: 1px solid #e5e4e0; border-radius: 10px; background: white; overflow: hidden; }
+    .demo-toolbar {
+      background: #f9f9f8; border-bottom: 1px solid #e5e4e0;
+      padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .demo-dots { display: flex; gap: 6px; }
+    .demo-dots span { width: 10px; height: 10px; border-radius: 50%; background: #c8c7c2; }
+    .demo-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9e9e99; }
+    .demo-tabs { display: flex; border-bottom: 1px solid #e5e4e0; padding: 0 16px; overflow-x: auto; }
+    .demo-tab {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      padding: 10px 14px; cursor: pointer; color: #6b6b66;
+      border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s;
+    }
+    .demo-tab:hover { color: #1a1a18; }
+    .demo-tab.active { color: #1a1a18; border-bottom-color: #1a1a18; }
+    .demo-body { padding: 1.5rem; }
+    .demo-scenario { display: none; }
+    .demo-scenario.active { display: block; }
+
+    /* Code block */
+    .code-block {
+      background: #1e1e1e; border-radius: 6px; padding: 1rem 1.25rem;
+      margin-bottom: 1rem; font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px; line-height: 1.8; overflow-x: auto;
+    }
+    .c-default { color: #d4d4d4; }
+    .c-comment { color: #6a9955; }
+    .c-string { color: #ce9178; }
+    .c-keyword { color: #569cd6; }
+    .c-fn { color: #dcdcaa; }
+    .c-highlight { color: #ff8c82; }
+
+    /* Run button */
+    .run-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1a1a18; color: white; border: none; border-radius: 6px;
+      padding: 9px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      cursor: pointer; margin-bottom: 1.25rem; transition: background 0.15s;
+    }
+    .run-btn:hover { background: #333; }
+    .run-btn:disabled { background: #c8c7c2; cursor: not-allowed; }
+
+    /* Terminal */
+    .terminal {
+      background: #1e1e1e; border-radius: 6px; padding: 1rem 1.25rem;
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      line-height: 1.8; min-height: 80px; display: none; margin-bottom: 1.25rem;
+    }
+    .terminal.visible { display: block; }
+    .t-info { color: #9cdcfe; }
+    .t-warn { color: #ce9178; }
+    .t-dim { color: #6a6a6a; }
+    .t-white { color: #d4d4d4; }
+
+    /* Findings */
+    .findings { display: none; flex-direction: column; gap: 10px; margin-bottom: 1.25rem; }
+    .findings.visible { display: flex; }
+    .finding { border-radius: 6px; padding: 12px 14px; border: 1px solid; font-size: 13px; }
+    .finding-critical { background: #fdf2f2; border-color: #f5c6c6; }
+    .finding-high { background: #fdf6f0; border-color: #f5d9b8; }
+    .finding-header { display: flex; align-items: center; gap: 8px; font-weight: 500; margin-bottom: 4px; font-size: 12px; }
+    .badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 3px; }
+    .badge-critical { background: #c0392b; color: white; }
+    .badge-high { background: #c05c00; color: white; }
+    .finding-detail { color: #6b6b66; font-size: 12px; line-height: 1.6; margin-bottom: 6px; }
+    .finding-fix { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: #6b6b66; }
+    .finding-fix strong { color: #1a1a18; }
+
+    /* Summary bar */
+    .summary-bar {
+      display: none; background: #f9f9f8; border: 1px solid #e5e4e0; border-radius: 6px;
+      padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    .summary-bar.visible { display: flex; }
+    .count-critical { color: #c0392b; font-weight: 500; }
+    .count-high { color: #c05c00; font-weight: 500; }
+    .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 3px; font-weight: 500; }
+    .status-failed { background: #c0392b; color: white; }
+
+    /* AGENT IN ACTION */
+    .agent-workflow { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin-bottom: 2rem; }
+    .agent-image { border-radius: 10px; border: 1px solid #e5e4e0; overflow: hidden; background: white; }
+    .agent-image img { display: block; width: 100%; height: auto; }
+    .agent-summary { display: flex; flex-direction: column; gap: 1.25rem; }
+    .summary-header { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; margin-bottom: 0.5rem; color: #1a1a18; }
+    .summary-stat { display: flex; align-items: baseline; gap: 8px; }
+    .summary-stat-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 700; line-height: 1; color: #1a1a18; }
+    .summary-stat-label { color: #6b6b66; font-size: 13px; }
+    .summary-counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 1.5rem 0; }
+    .count-badge { padding: 0.75rem; border-radius: 6px; background: #f9f9f8; border: 1px solid #e5e4e0; text-align: center; }
+    .count-badge-num { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; line-height: 1; }
+    .count-badge-label { font-size: 11px; color: #6b6b66; margin-top: 0.35rem; }
+    .critical-badge { color: #c0392b; }
+    .high-badge { color: #c05c00; }
+    .finding-item { background: white; border: 1px solid #e5e4e0; border-radius: 6px; padding: 1rem; font-size: 12px; }
+    .finding-item-title { font-weight: 500; margin-bottom: 0.4rem; display: flex; gap: 6px; align-items: center; }
+    .finding-item-desc { color: #6b6b66; line-height: 1.5; font-size: 12px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #e5e4e0; padding: 1.5rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: #9e9e99; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: #9e9e99; text-decoration: none; }
+    footer a:hover { color: #1a1a18; }
+
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid #e5e4e0; }
+      .steps { grid-template-columns: 1fr; }
+      .agent-workflow { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">ml-compliance <span>/ agent</span></div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#compare">Compare</a>
+    <a href="#demo">Live demo</a>
+    <span class="nav-badge">GitLab AI Hackathon 2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">ML License Compliance Agent</div>
+  <h1>The compliance gap <em>no tool</em> was filling.</h1>
+  <p class="subtitle">
+    The first CI/CD agent that audits Python packages, Hugging Face models,
+    and training datasets together — in a single automated pass.
+    Powered by Anthropic Claude via GitLab Duo.
+  </p>
+  <div class="hero-buttons">
+    <a href="#demo" class="btn-primary">Try the demo ↓</a>
+    <a href="https://gitlab.com/gitlab-ai-hackathon/participants/35165524/-/boards?show=eyJpaWQiOiIzIiwiZnVsbF9wYXRoIjoiZ2l0bGFiLWFpLWhhY2thdGhvbi9wYXJ0aWNpcGFudHMvMzUxNjU1MjQiLCJpZCI6MTg2OTI3NTA3fQ%3D%3D" class="btn-secondary">View on GitLab</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">65%</div>
+    <div class="stat-label">of Hugging Face models have no license metadata</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3-in-1</div>
+    <div class="stat-label">Packages + models + datasets in one CI/CD job</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">€15M</div>
+    <div class="stat-label">Max EU AI Act fine for non-compliant training data</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="how">
+  <div class="section-label">How it works</div>
+  <h2>Three scanners. One report.</h2>
+  <p class="section-intro">
+    The agent runs three scanners in sequence, applies your org's policy rules,
+    and produces a CycloneDX ML Bill of Materials — natively parsed by GitLab's security dashboard.
+  </p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01 — packages</div>
+      <div class="step-title">Python dependency scan</div>
+      <div class="step-desc">Resolves the full transitive dependency tree. Catches GPL contamination hiding inside MIT-licensed packages.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02 — models</div>
+      <div class="step-title">Hugging Face model scan</div>
+      <div class="step-desc">Queries the HF Hub API for every model referenced in your code. Flags Llama attribution, anti-distillation, and OpenRAIL restrictions.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03 — datasets</div>
+      <div class="step-title">Training dataset scan</div>
+      <div class="step-desc">Detects load_dataset() calls and checks licenses. Flags CC-BY-NC datasets used in commercial training pipelines.</div>
+    </div>
+  </div>
+</div>
+
+<!-- AGENT IN ACTION -->
+<div class="section">
+  <div class="section-label">Agent in action</div>
+  <h2>Triggered via GitLab issues. Simple as that.</h2>
+  <p class="section-intro">
+    Comment @ai-ml-license-compliance-flow on any GitLab issue, add a target directory, and the agent scans and reports back with findings and remediation steps.
+  </p>
+  
+  <div class="agent-workflow">
+    <div class="agent-image">
+      <img src="Image%203-25-26%20at%2012.02%20AM.jpeg" alt="AI Catalog Agent workflow in GitLab issue">
+    </div>
+    <div class="agent-summary">
+      <div>
+        <div class="summary-header">🔍 Real scan of demo-repo/</div>
+        <div class="summary-stat">
+          <div class="summary-stat-num">5</div>
+          <div class="summary-stat-label">Critical & high-severity findings</div>
+        </div>
+      </div>
+      
+      <div class="summary-counts">
+        <div class="count-badge">
+          <div class="count-badge-num critical-badge">1</div>
+          <div class="count-badge-label">CRITICAL</div>
+        </div>
+        <div class="count-badge">
+          <div class="count-badge-num high-badge">3</div>
+          <div class="count-badge-label">HIGH</div>
+        </div>
+        <div class="count-badge">
+          <div class="count-badge-num">1</div>
+          <div class="count-badge-label">MEDIUM</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div class="finding-item">
+          <div class="finding-item-title"><span style="color: #c0392b;">🚨</span> AGPL-3.0 SaaS Violation</div>
+          <div class="finding-item-desc">ultralytics==8.0.200 deployed via FastAPI requires full source disclosure or enterprise license under AGPL Section 13.</div>
+        </div>
+        
+        <div class="finding-item">
+          <div class="finding-item-title"><span style="color: #c05c00;">⚠️</span> Llama 3 Attribution Missing</div>
+          <div class="finding-item-desc">Meta Llama 3 license §2 requires "Built with Meta Llama 3" attribution in all user-facing documentation.</div>
+        </div>
+        
+        <div class="finding-item">
+          <div class="finding-item-title"><span style="color: #c05c00;">⚠️</span> Anti-Distillation Violation</div>
+          <div class="finding-item-desc">distill.py uses Llama 3 outputs to train DistilGPT-2, violating Llama license §1.b.v.</div>
+        </div>
+
+        <div class="finding-item">
+          <div class="finding-item-title"><span style="color: #c05c00;">⚠️</span> CC-BY-NC Commercial Use</div>
+          <div class="finding-item-desc">lmsys/chatbot_arena_conversations dataset (CC-BY-NC-4.0) cannot be used for commercial training.</div>
+        </div>
+
+        <div class="finding-item">
+          <div class="finding-item-title"><span style="color: #d4941e;">ℹ️</span> GPL-2.0+ Transitive Dependency</div>
+          <div class="finding-item-desc">python-slugify → Unidecode (GPL-2.0+). Distributing this application requires GPL-2.0 source disclosure unless replaced with permissive alternative (text-unidecode).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE -->
+<div class="section" id="compare">
+  <div class="section-label">Comparison</div>
+  <h2>What the other tools miss.</h2>
+  <p class="section-intro">
+    FOSSA, Snyk, and Black Duck cover code dependencies well.
+    None of them touch model licenses or training datasets.
+  </p>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>FOSSA</th>
+        <th>Snyk</th>
+        <th>Black Duck</th>
+        <th>This agent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Python package licenses</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+      <tr><td>Transitive dependency resolution</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>AGPL + SaaS context detection</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>HF model license lookup (API)</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="partial">file scan only</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Custom AI licenses (Llama, OpenRAIL)</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Llama attribution + anti-distillation</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Training dataset license scanning</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>CC-BY-NC commercial use detection</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>CycloneDX ML-BOM output</td><td><span class="cross">—</span></td><td><span class="partial">experimental</span></td><td><span class="partial">partial</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Plain-English summaries via Claude</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DEMO -->
+<div class="section" id="demo">
+  <div class="section-label">Interactive demo</div>
+  <h2>See it catch real violations.</h2>
+  <p class="section-intro">
+    A real scan of demo-repo/ finding all 5 compliance violations (1 critical, 3 high, 1 medium) across packages, models, and datasets.
+  </p>
+
+  <div class="demo-shell">
+    <div class="demo-toolbar">
+      <div class="demo-dots"><span></span><span></span><span></span></div>
+      <div class="demo-title">ml-license-compliance-agent — demo-repo/</div>
+      <div></div>
+    </div>
+    <div class="demo-tabs">
+      <div class="demo-tab active" onclick="switchTab(0)">Full compliance scan</div>
+      <div class="demo-tab" onclick="switchTab(1)">Violations summary</div>
+    </div>
+    <div class="demo-body">
+
+      <!-- SCENARIO 0: Full scan with all findings -->
+      <div class="demo-scenario active" id="s0">
+        <div class="code-block">
+          <div class="c-comment"># demo-repo/ — Complete real scan</div>
+          <div class="c-default">&nbsp;</div>
+          <div class="c-comment"># requirements.txt</div>
+          <div class="c-highlight">python-slugify==8.0.1 &nbsp;<span class="c-comment"># → Unidecode (GPL-2.0+)</span></div>
+          <div class="c-highlight">ultralytics==8.0.200 &nbsp;<span class="c-comment"># AGPL-3.0</span></div>
+          <div class="c-default">&nbsp;</div>
+          <div class="c-comment"># inference.py, distill.py</div>
+          <div class="c-highlight">meta-llama/Meta-Llama-3-8B-Instruct &nbsp;<span class="c-comment"># Custom license</span></div>
+          <div class="c-default">&nbsp;</div>
+          <div class="c-comment"># train_data.py</div>
+          <div class="c-highlight">load_dataset("lmsys/chatbot_arena_conversations") &nbsp;<span class="c-comment"># CC-BY-NC-4.0</span></div>
+        </div>
+        <button class="run-btn" id="run0" onclick="runDemo(0)">▶ &nbsp;Run scanner</button>
+        <div class="terminal" id="term0"></div>
+        <div class="findings" id="findings0">
+          <div class="finding finding-critical">
+            <div class="finding-header">
+              <span class="badge badge-critical">CRITICAL</span>
+              📦 ultralytics==8.0.200 (AGPL-3.0) — SaaS deployment detected
+            </div>
+            <div class="finding-detail">AGPL-3.0 §13 requires full source disclosure for network services. SaaS context confirmed: FastAPI + uvicorn + Dockerfile. Entire application must be open-sourced or licensed commercially.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Purchase Ultralytics Enterprise License or replace with RT-DETR (Apache-2.0)</div>
+          </div>
+
+          <div class="finding finding-high">
+            <div class="finding-header"><span class="badge badge-high">HIGH</span> 🤖 meta-llama/Meta-Llama-3-8B-Instruct — missing attribution</div>
+            <div class="finding-detail">Llama 3 license §2 requires "Built with Meta Llama 3" in all user-facing documentation. Not found in README or any public-facing files.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add attribution statement to README.md</div>
+          </div>
+
+          <div class="finding finding-high">
+            <div class="finding-header"><span class="badge badge-high">HIGH</span> 🤖 meta-llama/Meta-Llama-3-8B-Instruct — anti-distillation violation</div>
+            <div class="finding-detail">distill.py uses Llama 3 outputs to train DistilGPT-2. Llama license §1.b.v prohibits using model outputs to train competing models.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Use Llama 3.1+ (relaxed restrictions) or Mistral-7B (Apache-2.0) as teacher model</div>
+          </div>
+
+          <div class="finding finding-high">
+            <div class="finding-header"><span class="badge badge-high">HIGH</span> 📊 lmsys/chatbot_arena_conversations — CC-BY-NC-4.0</div>
+            <div class="finding-detail">This dataset prohibits commercial use. Cannot be used for training commercial models or in commercial SaaS products.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Replace with OpenAssistant/oasst2 (Apache-2.0) or Databricks Dolly (CC-BY-NC)</div>
+          </div>
+
+          <div class="finding" style="background: #fffbf0; border-color: #f5e6c6;">
+            <div class="finding-header" style="color: #6b6b66; font-weight: 500;">
+              <span style="font-size: 11px; background: #d4941e; color: white; padding: 2px 6px; border-radius: 3px; font-weight: 500; font-family: 'IBM Plex Mono';">MEDIUM</span>
+              📦 python-slugify==8.0.1 → Unidecode (GPL-2.0+)
+            </div>
+            <div class="finding-detail">Transitive GPL dependency. Distribution (including Docker images) requires GPL-2.0 source disclosure.</div>
+            <div class="finding-fix"><strong>Fix:</strong> pip install text-unidecode==1.3 (Artistic License — permissive)</div>
+          </div>
+        </div>
+        <div class="summary-bar" id="sum0">
+          <div><span class="count-critical">1 critical</span> &nbsp; <span class="count-high">3 high</span> &nbsp; <span style="color: #d4941e; font-weight: 500;">1 medium</span></div>
+          <span class="status-badge status-failed">SCAN FAILED — 5 violations found</span>
+        </div>
+      </div>
+
+      <!-- SCENARIO 1: Violation summary -->
+      <div class="demo-scenario" id="s1">
+        <div class="code-block">
+          <div class="c-comment"># Agent reasoning & remediation priorities</div>
+          <div class="c-default">&nbsp;</div>
+          <div class="c-keyword">Findings by severity:</div>
+          <div class="c-default">  1 CRITICAL (legal exposure / license infringement risk)</div>
+          <div class="c-default">  3 HIGH (clear license clause violations)</div>
+          <div class="c-default">  1 MEDIUM (supply chain risk / GPL contamination)</div>
+          <div class="c-default">&nbsp;</div>
+          <div class="c-keyword">Immediate actions required:</div>
+          <div class="c-highlight">1. Replace ultralytics (CRITICAL — licensing conflict)</div>
+          <div class="c-highlight">2. Add Llama attribution (HIGH — 5-minute fix)</div>
+          <div class="c-highlight">3. Remove distillation or swap teacher (HIGH — architecture change)</div>
+          <div class="c-highlight">4. Replace dataset (HIGH — commercial use violation)</div>
+          <div class="c-highlight">5. Fix GPL transitive dep (MEDIUM — distribution risk)</div>
+          <div class="c-default">&nbsp;</div>
+          <div class="c-comment"># CycloneDX ML-BOM generated + compliance report written</div>
+        </div>
+        <button class="run-btn" id="run1" onclick="runDemo(1)">▶ &nbsp;View remediation</button>
+        <div class="terminal" id="term1"></div>
+        <div class="findings" id="findings1">
+          <div class="finding" style="background: #f0f4fd; border-color: #9cdcfe;">
+            <div class="finding-header" style="color: #1a1a18;">
+              ✓ Compliance Report Generated
+            </div>
+            <div class="finding-detail">All findings documented in compliance-report.md with actionable remediation steps, risk assessments, and recommended timelines.</div>
+          </div>
+        </div>
+        <div class="summary-bar" id="sum1" style="background: #f0fdf4; border-color: #bbf7d0;">
+          <div><span style="color: #1a6b3a; font-weight: 500;">✓ Report ready for review</span></div>
+          <span class="status-badge" style="background: #1a6b3a; color: white;">Scan complete — 5 findings</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>ML License Compliance Agent — GitLab AI Hackathon 2026</span>
+  <span>Licensed under <a href="LICENSE">MIT</a></span>
+</footer>
+
+<script>
+  // switchTab: shows the right scenario when you click a tab
+  // It loops through all tabs and scenarios, adding/removing the "active" class
+  function switchTab(index) {
+    document.querySelectorAll('.demo-tab').forEach((t, i) => {
+      t.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.demo-scenario').forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+  }
+
+  // The terminal lines to print for each scenario
+  const scenarios = [
+    { lines: [
+      { cls: 't-info', text: 'INFO: Scanning repository: demo-repo/' },
+      { cls: 't-info', text: 'INFO: Running Python package scanner...' },
+      { cls: 't-dim',  text: '  Parsing requirements.txt & resolving transitive dependencies...' },
+      { cls: 't-warn', text: '  ⚠️  ultralytics==8.0.200 [AGPL-3.0]' },
+      { cls: 't-warn', text: '  ⚠️  python-slugify==8.0.1 → Unidecode==1.3.7 [GPL-2.0-or-later]' },
+      { cls: 't-info', text: 'INFO: Running Hugging Face model scanner...' },
+      { cls: 't-dim',  text: '  Extracting model references from Python files...' },
+      { cls: 't-warn', text: '  ⚠️  meta-llama/Meta-Llama-3-8B-Instruct [llama3 - CUSTOM]' },
+      { cls: 't-info', text: 'INFO: Running training dataset scanner...' },
+      { cls: 't-dim',  text: '  Scanning for load_dataset() calls...' },
+      { cls: 't-warn', text: '  ⚠️  lmsys/chatbot_arena_conversations [CC-BY-NC-4.0]' },
+      { cls: 't-info', text: 'INFO: Invoking Claude AI for comprehensive policy analysis...' },
+      { cls: 't-white',text: '  → Analyzing AGPL SaaS context (FastAPI + Dockerfile detected)...' },
+      { cls: 't-white',text: '  → Checking Llama attribution & anti-distillation clauses...' },
+      { cls: 't-white',text: '  → Assessing dataset commercial use restrictions...' },
+      { cls: 't-white',text: '  → Evaluating transitive GPL contamination...' },
+      { cls: 't-info', text: 'INFO: Policy engine results:' },
+      { cls: 't-warn', text: '  1 CRITICAL: AGPL-3.0 SaaS deployment violation' },
+      { cls: 't-warn', text: '  3 HIGH: Llama violations (2x) + CC-BY-NC commercial use' },
+      { cls: 't-warn', text: '  1 MEDIUM: GPL-2.0+ transitive dependency' },
+      { cls: 't-info', text: 'INFO: Generating CycloneDX ML-BOM → ml-sbom.json' },
+      { cls: 't-info', text: 'INFO: Writing compliance report → compliance-report.md' },
+    ]},
+    { lines: [
+      { cls: 't-info', text: 'INFO: Compliance remediation guide generated' },
+      { cls: 't-info', text: 'INFO: Prioritized action items by severity:' },
+      { cls: 't-dim',  text: '&nbsp;' },
+      { cls: 't-white',text: '  CRITICAL (Legal exposure — requires immediate action):' },
+      { cls: 't-dim',  text: '    → Replace ultralytics with RT-DETR (Apache-2.0) OR purchase enterprise license' },
+      { cls: 't-dim',  text: '&nbsp;' },
+      { cls: 't-white',text: '  HIGH (Clear license violations — must remediate this sprint):' },
+      { cls: 't-dim',  text: '    → Add "Built with Meta Llama 3" attribution to README' },
+      { cls: 't-dim',  text: '    → Replace teacher model (Mistral-7B) or remove distillation pipeline' },
+      { cls: 't-dim',  text: '    → Replace dataset with OpenAssistant/oasst2 (Apache-2.0)' },
+      { cls: 't-dim',  text: '&nbsp;' },
+      { cls: 't-white',text: '  MEDIUM (Supply chain risk — prioritize in next release):' },
+      { cls: 't-dim',  text: '    → Install text-unidecode (MIT) instead of Unidecode' },
+      { cls: 't-dim',  text: '&nbsp;' },
+      { cls: 't-info', text: 'INFO: Full report ready for compliance team review' },
+      { cls: 't-info', text: 'INFO: CycloneDX ML-BOM published to security dashboard' },
+    ]}
+  ];
+
+  // runDemo: animates the terminal line by line, then reveals findings
+  function runDemo(index) {
+    const btn      = document.getElementById('run' + index);
+    const term     = document.getElementById('term' + index);
+    const findings = document.getElementById('findings' + index);
+    const summary  = document.getElementById('sum' + index);
+
+    // Reset everything first
+    btn.disabled = true;
+    btn.textContent = '⏳  Scanning...';
+    term.innerHTML = '';
+    term.classList.add('visible');
+    findings.classList.remove('visible');
+    summary.classList.remove('visible');
+
+    const lines = scenarios[index].lines;
+    let i = 0;
+
+    // Print one line at a time with a 120ms delay between each
+    // This is a recursive function — it calls itself until all lines are printed
+    function printNext() {
+      if (i >= lines.length) {
+        // Done — show the findings cards and summary bar
+        setTimeout(() => {
+          findings.classList.add('visible');
+          summary.classList.add('visible');
+          btn.disabled = false;
+          btn.innerHTML = '▶ &nbsp;Run again';
+        }, 400);
+        return;
+      }
+      const div = document.createElement('div'); // create a new <div>
+      div.className = lines[i].cls;              // give it the right color class
+      div.textContent = lines[i].text;           // set the text
+      term.appendChild(div);                     // add it to the terminal
+      term.scrollTop = term.scrollHeight;        // auto-scroll to bottom
+      i++;
+      setTimeout(printNext, 120);                // wait 120ms then print next line
+    }
+
+    printNext();
+  }
+</script>
+
+</body>
+</html>
