@@ -2,7 +2,10 @@
 ML License Compliance Agent — main entry point
 
 Runs all three scanners (packages, models, datasets), applies the policy engine,
-generates CycloneDX ML-BOM and compliance report, and optionally posts MR comments.
+and generates CycloneDX ML-BOM and compliance report.
+
+Claude AI analysis is provided interactively via the GitLab Duo Agent Platform
+(agents/agent.yml) — not via the Anthropic SDK in CI scripts.
 """
 
 import argparse
@@ -14,7 +17,6 @@ from pathlib import Path
 from scanner.model_scanner import scan as model_scan
 from scanner.package_scanner import scan as package_scan
 from scanner.dataset_scanner import scan as dataset_scan
-from scanner.claude_analyzer import analyze as claude_analyze
 from policy.engine import PolicyEngine
 from output.bom_generator import generate
 
@@ -32,8 +34,6 @@ def main():
     parser.add_argument("--skip-packages", action="store_true", help="Skip package scanning")
     parser.add_argument("--skip-datasets", action="store_true", help="Skip dataset scanning")
     parser.add_argument("--post-mr-comment", action="store_true", help="Post findings as GitLab MR comment")
-    parser.add_argument("--claude-enhance", action="store_true", help="Enhance report with Claude AI analysis (requires ANTHROPIC_API_KEY)")
-    parser.add_argument("--anthropic-key", default=None, help="Anthropic API key (overrides ANTHROPIC_API_KEY env var)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
     args = parser.parse_args()
 
@@ -80,22 +80,6 @@ def main():
         package_results=package_results,
     )
 
-    # ---- Claude AI enhancement (optional) ----
-    claude_analysis = {}
-    if args.claude_enhance or args.anthropic_key or os.environ.get("ANTHROPIC_API_KEY"):
-        logger.info("Running Claude-powered compliance analysis...")
-        claude_analysis = claude_analyze(
-            findings=results["findings"],
-            summary=results["summary"],
-            model_results=model_results or {"findings": []},
-            dataset_results=dataset_results or {"findings": []},
-            package_results=package_results or {"packages": {}},
-            project_name=args.project_name,
-            api_key=args.anthropic_key,
-        )
-        if claude_analysis.get("executive_summary"):
-            logger.info("Claude analysis complete — executive summary added to report")
-
     # ---- Generate outputs ----
     output_dir = Path(args.output_dir)
     output_paths = generate(
@@ -107,7 +91,6 @@ def main():
         project_name=args.project_name,
         project_version=args.project_version,
         output_dir=output_dir,
-        claude_analysis=claude_analysis,
     )
 
     # ---- Print summary ----
