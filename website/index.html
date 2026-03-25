@@ -257,7 +257,7 @@
   <h1>The compliance gap <em>no tool</em> was filling.</h1>
   <p class="subtitle">
     The first CI/CD agent that audits Python packages, Hugging Face models,
-    and training datasets together — in a single automated pass.
+    and training datasets together - in a single automated pass.
     Powered by Anthropic Claude via GitLab Duo.
   </p>
   <div class="hero-buttons">
@@ -288,21 +288,21 @@
   <h2>Three scanners. One report.</h2>
   <p class="section-intro">
     The agent runs three scanners in sequence, applies your org's policy rules,
-    and produces a CycloneDX ML Bill of Materials — natively parsed by GitLab's security dashboard.
+    and produces a CycloneDX ML Bill of Materials - natively parsed by GitLab's security dashboard.
   </p>
   <div class="steps">
     <div class="step">
-      <div class="step-num">01 — packages</div>
+      <div class="step-num">01 - packages</div>
       <div class="step-title">Python dependency scan</div>
       <div class="step-desc">Resolves the full transitive dependency tree. Catches GPL contamination hiding inside MIT-licensed packages.</div>
     </div>
     <div class="step">
-      <div class="step-num">02 — models</div>
+      <div class="step-num">02 - models</div>
       <div class="step-title">Hugging Face model scan</div>
       <div class="step-desc">Queries the HF Hub API for every model referenced in your code. Flags Llama attribution, anti-distillation, and OpenRAIL restrictions.</div>
     </div>
     <div class="step">
-      <div class="step-num">03 — datasets</div>
+      <div class="step-num">03 - datasets</div>
       <div class="step-title">Training dataset scan</div>
       <div class="step-desc">Detects load_dataset() calls and checks licenses. Flags CC-BY-NC datasets used in commercial training pipelines.</div>
     </div>
@@ -319,7 +319,7 @@
   
   <div class="agent-workflow">
     <div class="agent-image">
-      <img src="Image%203-25-26%20at%2012.02%20AM.jpeg" alt="AI Catalog Agent workflow in GitLab issue">
+      <img src="demo-scan.jpeg" alt="AI Catalog Agent workflow in GitLab issue">
     </div>
     <div class="agent-summary">
       <div>
@@ -396,14 +396,14 @@
     <tbody>
       <tr><td>Python package licenses</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
       <tr><td>Transitive dependency resolution</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>AGPL + SaaS context detection</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>HF model license lookup (API)</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="partial">file scan only</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>Custom AI licenses (Llama, OpenRAIL)</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>Llama attribution + anti-distillation</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>Training dataset license scanning</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>CC-BY-NC commercial use detection</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>CycloneDX ML-BOM output</td><td><span class="cross">—</span></td><td><span class="partial">experimental</span></td><td><span class="partial">partial</span></td><td><span class="tick">✓</span></td></tr>
-      <tr class="ours"><td>Plain-English summaries via Claude</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>AGPL + SaaS context detection</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>HF model license lookup (API)</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="partial">file scan only</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Custom AI licenses (Llama, OpenRAIL)</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Llama attribution + anti-distillation</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Training dataset license scanning</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>CC-BY-NC commercial use detection</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>CycloneDX ML-BOM output</td><td><span class="cross">-</span></td><td><span class="partial">experimental</span></td><td><span class="partial">partial</span></td><td><span class="tick">✓</span></td></tr>
+      <tr class="ours"><td>Plain-English summaries via Claude</td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="cross">-</span></td><td><span class="tick">✓</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -419,7 +419,7 @@
   <div class="demo-shell">
     <div class="demo-toolbar">
       <div class="demo-dots"><span></span><span></span><span></span></div>
-      <div class="demo-title">ml-license-compliance-agent — demo-repo/</div>
+      <div class="demo-title">ml-license-compliance-agent - demo-repo/</div>
       <div></div>
     </div>
     <div class="demo-tabs">
@@ -431,7 +431,7 @@
       <!-- SCENARIO 0: Full scan with all findings -->
       <div class="demo-scenario active" id="s0">
         <div class="code-block">
-          <div class="c-comment"># demo-repo/ — Complete real scan</div>
+          <div class="c-comment"># demo-repo/ - Complete real scan</div>
           <div class="c-default">&nbsp;</div>
           <div class="c-comment"># requirements.txt</div>
           <div class="c-highlight">python-slugify==8.0.1 &nbsp;<span class="c-comment"># → Unidecode (GPL-2.0+)</span></div>
@@ -449,26 +449,26 @@
           <div class="finding finding-critical">
             <div class="finding-header">
               <span class="badge badge-critical">CRITICAL</span>
-              📦 ultralytics==8.0.200 (AGPL-3.0) — SaaS deployment detected
+              📦 ultralytics==8.0.200 (AGPL-3.0) - SaaS deployment detected
             </div>
             <div class="finding-detail">AGPL-3.0 §13 requires full source disclosure for network services. SaaS context confirmed: FastAPI + uvicorn + Dockerfile. Entire application must be open-sourced or licensed commercially.</div>
             <div class="finding-fix"><strong>Fix:</strong> Purchase Ultralytics Enterprise License or replace with RT-DETR (Apache-2.0)</div>
           </div>
 
           <div class="finding finding-high">
-            <div class="finding-header"><span class="badge badge-high">HIGH</span> 🤖 meta-llama/Meta-Llama-3-8B-Instruct — missing attribution</div>
+            <div class="finding-header"><span class="badge badge-high">HIGH</span> 🤖 meta-llama/Meta-Llama-3-8B-Instruct - missing attribution</div>
             <div class="finding-detail">Llama 3 license §2 requires "Built with Meta Llama 3" in all user-facing documentation. Not found in README or any public-facing files.</div>
             <div class="finding-fix"><strong>Fix:</strong> Add attribution statement to README.md</div>
           </div>
 
           <div class="finding finding-high">
-            <div class="finding-header"><span class="badge badge-high">HIGH</span> 🤖 meta-llama/Meta-Llama-3-8B-Instruct — anti-distillation violation</div>
+            <div class="finding-header"><span class="badge badge-high">HIGH</span> 🤖 meta-llama/Meta-Llama-3-8B-Instruct - anti-distillation violation</div>
             <div class="finding-detail">distill.py uses Llama 3 outputs to train DistilGPT-2. Llama license §1.b.v prohibits using model outputs to train competing models.</div>
             <div class="finding-fix"><strong>Fix:</strong> Use Llama 3.1+ (relaxed restrictions) or Mistral-7B (Apache-2.0) as teacher model</div>
           </div>
 
           <div class="finding finding-high">
-            <div class="finding-header"><span class="badge badge-high">HIGH</span> 📊 lmsys/chatbot_arena_conversations — CC-BY-NC-4.0</div>
+            <div class="finding-header"><span class="badge badge-high">HIGH</span> 📊 lmsys/chatbot_arena_conversations - CC-BY-NC-4.0</div>
             <div class="finding-detail">This dataset prohibits commercial use. Cannot be used for training commercial models or in commercial SaaS products.</div>
             <div class="finding-fix"><strong>Fix:</strong> Replace with OpenAssistant/oasst2 (Apache-2.0) or Databricks Dolly (CC-BY-NC)</div>
           </div>
@@ -479,12 +479,12 @@
               📦 python-slugify==8.0.1 → Unidecode (GPL-2.0+)
             </div>
             <div class="finding-detail">Transitive GPL dependency. Distribution (including Docker images) requires GPL-2.0 source disclosure.</div>
-            <div class="finding-fix"><strong>Fix:</strong> pip install text-unidecode==1.3 (Artistic License — permissive)</div>
+            <div class="finding-fix"><strong>Fix:</strong> pip install text-unidecode==1.3 (Artistic License - permissive)</div>
           </div>
         </div>
         <div class="summary-bar" id="sum0">
           <div><span class="count-critical">1 critical</span> &nbsp; <span class="count-high">3 high</span> &nbsp; <span style="color: #d4941e; font-weight: 500;">1 medium</span></div>
-          <span class="status-badge status-failed">SCAN FAILED — 5 violations found</span>
+          <span class="status-badge status-failed">SCAN FAILED - 5 violations found</span>
         </div>
       </div>
 
@@ -499,11 +499,11 @@
           <div class="c-default">  1 MEDIUM (supply chain risk / GPL contamination)</div>
           <div class="c-default">&nbsp;</div>
           <div class="c-keyword">Immediate actions required:</div>
-          <div class="c-highlight">1. Replace ultralytics (CRITICAL — licensing conflict)</div>
-          <div class="c-highlight">2. Add Llama attribution (HIGH — 5-minute fix)</div>
-          <div class="c-highlight">3. Remove distillation or swap teacher (HIGH — architecture change)</div>
-          <div class="c-highlight">4. Replace dataset (HIGH — commercial use violation)</div>
-          <div class="c-highlight">5. Fix GPL transitive dep (MEDIUM — distribution risk)</div>
+          <div class="c-highlight">1. Replace ultralytics (CRITICAL - licensing conflict)</div>
+          <div class="c-highlight">2. Add Llama attribution (HIGH - 5-minute fix)</div>
+          <div class="c-highlight">3. Remove distillation or swap teacher (HIGH - architecture change)</div>
+          <div class="c-highlight">4. Replace dataset (HIGH - commercial use violation)</div>
+          <div class="c-highlight">5. Fix GPL transitive dep (MEDIUM - distribution risk)</div>
           <div class="c-default">&nbsp;</div>
           <div class="c-comment"># CycloneDX ML-BOM generated + compliance report written</div>
         </div>
@@ -519,7 +519,7 @@
         </div>
         <div class="summary-bar" id="sum1" style="background: #f0fdf4; border-color: #bbf7d0;">
           <div><span style="color: #1a6b3a; font-weight: 500;">✓ Report ready for review</span></div>
-          <span class="status-badge" style="background: #1a6b3a; color: white;">Scan complete — 5 findings</span>
+          <span class="status-badge" style="background: #1a6b3a; color: white;">Scan complete - 5 findings</span>
         </div>
       </div>
 
@@ -528,7 +528,7 @@
 </div>
 
 <footer>
-  <span>ML License Compliance Agent — GitLab AI Hackathon 2026</span>
+  <span>ML License Compliance Agent - GitLab AI Hackathon 2026</span>
   <span>Licensed under <a href="LICENSE">MIT</a></span>
 </footer>
 
@@ -574,15 +574,15 @@
       { cls: 't-info', text: 'INFO: Compliance remediation guide generated' },
       { cls: 't-info', text: 'INFO: Prioritized action items by severity:' },
       { cls: 't-dim',  text: '&nbsp;' },
-      { cls: 't-white',text: '  CRITICAL (Legal exposure — requires immediate action):' },
+      { cls: 't-white',text: '  CRITICAL (Legal exposure - requires immediate action):' },
       { cls: 't-dim',  text: '    → Replace ultralytics with RT-DETR (Apache-2.0) OR purchase enterprise license' },
       { cls: 't-dim',  text: '&nbsp;' },
-      { cls: 't-white',text: '  HIGH (Clear license violations — must remediate this sprint):' },
+      { cls: 't-white',text: '  HIGH (Clear license violations - must remediate this sprint):' },
       { cls: 't-dim',  text: '    → Add "Built with Meta Llama 3" attribution to README' },
       { cls: 't-dim',  text: '    → Replace teacher model (Mistral-7B) or remove distillation pipeline' },
       { cls: 't-dim',  text: '    → Replace dataset with OpenAssistant/oasst2 (Apache-2.0)' },
       { cls: 't-dim',  text: '&nbsp;' },
-      { cls: 't-white',text: '  MEDIUM (Supply chain risk — prioritize in next release):' },
+      { cls: 't-white',text: '  MEDIUM (Supply chain risk - prioritize in next release):' },
       { cls: 't-dim',  text: '    → Install text-unidecode (MIT) instead of Unidecode' },
       { cls: 't-dim',  text: '&nbsp;' },
       { cls: 't-info', text: 'INFO: Full report ready for compliance team review' },
@@ -609,10 +609,10 @@
     let i = 0;
 
     // Print one line at a time with a 120ms delay between each
-    // This is a recursive function — it calls itself until all lines are printed
+    // This is a recursive function - it calls itself until all lines are printed
     function printNext() {
       if (i >= lines.length) {
-        // Done — show the findings cards and summary bar
+        // Done - show the findings cards and summary bar
         setTimeout(() => {
           findings.classList.add('visible');
           summary.classList.add('visible');
