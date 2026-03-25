@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "agents": {
+    "agents/agent.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1007037",
+      "name": "ML License Compliance Agent",
+      "created_at": "2026-03-25T06:37:35.566Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5674779"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5674780"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v0.1.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-25T06:37:35.566Z",
+        "definition_hash": "4a6488d62960e04d"
+      }
+    }
+  },
+  "flows": {
+    "flows/flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1007038",
+      "name": "ML License Compliance Flow",
+      "created_at": "2026-03-25T06:37:36.799Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5674781"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5674782"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v0.1.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-25T06:37:36.799Z",
+        "definition_hash": "9f2c19c688361693"
+      }
+    }
+  }
+}
